@@ -2,9 +2,15 @@ package calculator
 
 import "errors"
 
+type CalculatorInterface interface {
+	Calculate(operation string, a, b float64) (float64, error)
+}
+
 type Calculator struct {
 	Operations map[string]Operation
 }
+
+// Ensure Calculator implements the interface
 
 func NewCalculator() *Calculator {
 

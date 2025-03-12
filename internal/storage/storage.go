@@ -11,7 +11,7 @@ type CalculationResult struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
-type Storage interface {
+type StorageInterface interface {
 	SaveCalculation(result CalculationResult) error
-	GetCalculations() ([]CalculationResult, error)
+	GetHistory() ([]CalculationResult, error)
 }

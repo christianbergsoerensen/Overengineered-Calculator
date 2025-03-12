@@ -7,14 +7,14 @@ import (
 	"github.com/christianbergsoerensen/Overengineered-Calculator/internal/storage"
 )
 
-func handlerHistory(store storage.Storage) http.HandlerFunc {
+func handlerHistory(store storage.StorageInterface) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		handlerHistoryHelper(w, r, store)
 	}
 }
 
-func handlerHistoryHelper(w http.ResponseWriter, r *http.Request, store storage.Storage) {
-	calcs, err := store.GetCalculations()
+func handlerHistoryHelper(w http.ResponseWriter, r *http.Request, store storage.StorageInterface) {
+	calcs, err := store.GetHistory()
 	if err != nil {
 		http.Error(w, "could not fetch history", 500)
 		return

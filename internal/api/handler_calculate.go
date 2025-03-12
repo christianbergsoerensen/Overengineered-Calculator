@@ -19,13 +19,13 @@ type CalculateResponse struct {
 	Result float64 `json:"result"`
 }
 
-func handlerCalculate(calc *calculator.Calculator, store storage.Storage) http.HandlerFunc {
+func handlerCalculate(calc calculator.CalculatorInterface, store storage.StorageInterface) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		handleCalculateHelper(w, r, calc, store)
 	}
 }
 
-func handleCalculateHelper(w http.ResponseWriter, r *http.Request, calc *calculator.Calculator, store storage.Storage) {
+func handleCalculateHelper(w http.ResponseWriter, r *http.Request, calc calculator.CalculatorInterface, store storage.StorageInterface) {
 	req := CalculateRequest{}
 	//Expecting r.body to have keys operation , a and b, which then can be decoded into a CalculateRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

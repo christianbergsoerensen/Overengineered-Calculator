@@ -2,7 +2,6 @@ package storage
 
 import (
 	"database/sql"
-	"fmt"
 
 	_ "modernc.org/sqlite"
 )
@@ -45,8 +44,7 @@ func (s *SQLiteStorage) SaveCalculation(result CalculationResult) error {
 	return err
 }
 
-func (s *SQLiteStorage) GetCalculations() ([]CalculationResult, error) {
-	fmt.Println(1)
+func (s *SQLiteStorage) GetHistory() ([]CalculationResult, error) {
 	rows, err := s.db.Query(`
 		SELECT * FROM calculations
 	`)
@@ -54,7 +52,6 @@ func (s *SQLiteStorage) GetCalculations() ([]CalculationResult, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	fmt.Println(2)
 	results := []CalculationResult{}
 	for rows.Next() {
 		res := CalculationResult{}
@@ -62,7 +59,6 @@ func (s *SQLiteStorage) GetCalculations() ([]CalculationResult, error) {
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println(3)
 		results = append(results, res)
 	}
 
