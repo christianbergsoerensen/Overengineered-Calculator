@@ -20,7 +20,7 @@ This is a simple RESTful API that performs arithmetic operations and stores the 
     - Response: The result of the operation.
 
 - **GET /history**: Retrieve the history of past calculations.
-    - Response: List of all calculations with operation, operands, and result.
+    - Response: List of all calculations with id, operation, operands, result and timestamp.
 
 ## Running the API Locally
 
