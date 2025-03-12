@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (h *Handler) historyHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) handlerHistory(w http.ResponseWriter, r *http.Request) {
 	resp := map[string]string{"message": "History API is running"}
 	json.NewEncoder(w).Encode(resp)
 }

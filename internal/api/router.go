@@ -8,8 +8,8 @@ func NewRouter() *chi.Mux {
 	r := chi.NewRouter()
 	handler := newHandler()
 
-	r.Post("/calculate", handler.calculateHandler)
-	r.Get("/history", handler.historyHandler)
+	r.Post("/calculate", handler.handlerCalculate)
+	r.Get("/history", handler.handlerHistory)
 
 	return r
 }
