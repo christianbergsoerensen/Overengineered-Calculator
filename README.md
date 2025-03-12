@@ -5,8 +5,6 @@ This is a simple RESTful API that performs arithmetic operations and stores the 
 ## Features:
 - Perform basic arithmetic operations: addition, subtraction, multiplication, and division.
 - View calculation history.
-- Handles overflow errors for large calculations.
-- Provides a RESTful API for interaction.
 
 ## Operations Supported:
 - **POST /calculate**: Perform an arithmetic operation.
