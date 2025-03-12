@@ -21,5 +21,4 @@ func handlerHistoryHelper(w http.ResponseWriter, _ *http.Request, store storage.
 	}
 
 	json.NewEncoder(w).Encode(calcs)
-
 }
