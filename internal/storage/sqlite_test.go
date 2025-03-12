@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetHistory(t *testing.T) {
+func TestSQLite(t *testing.T) {
 	//Using in-memory SQLite
 	store, err := NewSQLiteStorage(":memory:")
 	if err != nil {

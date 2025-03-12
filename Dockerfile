@@ -24,5 +24,6 @@ COPY --from=builder /app/main /app/
 
 ENV PORT=8080
 ENV DATABASE_URL ""
+ENV DB_TYPE="postgres"
 # Run the binary
 CMD ["./main"]
