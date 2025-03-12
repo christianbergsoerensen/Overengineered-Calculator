@@ -1,6 +1,8 @@
 package calculator
 
-import "errors"
+import (
+	"errors"
+)
 
 type CalculatorInterface interface {
 	Calculate(operation string, a, b float64) (float64, error)
@@ -9,8 +11,6 @@ type CalculatorInterface interface {
 type Calculator struct {
 	Operations map[string]Operation
 }
-
-// Ensure Calculator implements the interface
 
 func NewCalculator() *Calculator {
 
@@ -30,6 +30,11 @@ func (c *Calculator) Calculate(operation string, a, b float64) (float64, error) 
 		return 0, errors.New("operation does not exist")
 	}
 
-	return op.Calculate(a, b)
+	result, err := op.Calculate(a, b)
+	if err != nil {
+		return 0, err
+	}
+
+	return result, nil
 
 }

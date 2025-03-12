@@ -17,6 +17,7 @@ func TestCalculator(t *testing.T) {
 	tests = append(tests, testInfo{"Valid Addition", "add", 8, 5, 13, false})
 	tests = append(tests, testInfo{"Valid Subtraction", "subtract", 34, 11, 23, false})
 	tests = append(tests, testInfo{"Valid Multiplication", "multiply", 4, 11, 44, false})
+	tests = append(tests, testInfo{"Overflow Calculation", "multiply", 1e155, 1e154, 0, true})
 	tests = append(tests, testInfo{"Valid Division", "divide", 10, 2, 5, false})
 	tests = append(tests, testInfo{"Invalid Division", "divide", 10, 0, 0, true})
 	tests = append(tests, testInfo{"Invalid Operation", "log", 8, 2, 0, true})

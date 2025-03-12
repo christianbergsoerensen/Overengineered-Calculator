@@ -15,7 +15,7 @@ import (
 
 func main() {
 	calc := calculator.NewCalculator()
-	store, err := storage.NewSQLiteStorage("calculations.db")
+	store, err := storage.NewSQLiteStorage("./internal/storage/calculations.db")
 	if err != nil {
 		log.Fatal("Error setting up the storage ", err)
 	}

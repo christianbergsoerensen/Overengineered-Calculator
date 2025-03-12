@@ -33,14 +33,12 @@ func handleCalculateHelper(w http.ResponseWriter, r *http.Request, calc calculat
 		http.Error(w, "invalid json", 400)
 		return
 	}
-
 	res, err := calc.Calculate(req.Operation, req.A, req.B)
 	//Only division by 0 error at the moment
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
-
 	//By now we know that the calc is successful so we save it to storage
 
 	err = store.SaveCalculation(storage.CalculationResult{

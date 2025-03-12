@@ -1,10 +1,11 @@
 package api
 
 import (
-	"bytes"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/christianbergsoerensen/Overengineered-Calculator/internal/storage"
@@ -15,6 +16,7 @@ import (
 type StubCalculator struct{}
 
 func (s *StubCalculator) Calculate(expression string, a, b float64) (float64, error) {
+	fmt.Println("fuckimgoose")
 	return 4.0, nil
 }
 
@@ -28,13 +30,13 @@ func (s *StubStorage) GetHistory() ([]storage.CalculationResult, error) {
 	return []storage.CalculationResult{}, nil
 }
 
-type FailingStorage struct{}
+type StubFailingStorage struct{}
 
-func (s *FailingStorage) SaveCalculation(calc storage.CalculationResult) error {
+func (s *StubFailingStorage) SaveCalculation(calc storage.CalculationResult) error {
 	return errors.New("database error")
 }
 
-func (s *FailingStorage) GetHistory() ([]storage.CalculationResult, error) {
+func (s *StubFailingStorage) GetHistory() ([]storage.CalculationResult, error) {
 	return []storage.CalculationResult{}, nil
 }
 
@@ -42,7 +44,7 @@ func TestCalculateHandler(t *testing.T) {
 	handler := handlerCalculate(&StubCalculator{}, &StubStorage{})
 
 	t.Run("Valid input returns correct result", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, "/calculate", bytes.NewBufferString(`{"add": "2+2"}`))
+		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"add": "2+2"}`))
 		req.Header.Set("Content-Type", "application/json")
 		rec := httptest.NewRecorder()
 
@@ -53,7 +55,7 @@ func TestCalculateHandler(t *testing.T) {
 	})
 
 	t.Run("Invalid input returns 400 error", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, "/calculate", bytes.NewBufferString(`{"add": 2+2`))
+		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"addddd": 2+2"}`))
 		req.Header.Set("Content-Type", "application/json")
 		rec := httptest.NewRecorder()
 
@@ -63,9 +65,8 @@ func TestCalculateHandler(t *testing.T) {
 	})
 
 	t.Run("Server error returns 500 error", func(t *testing.T) {
-		handler := handlerCalculate(&StubCalculator{}, &FailingStorage{})
-
-		req := httptest.NewRequest(http.MethodPost, "/calculate", bytes.NewBufferString(`{"add": "2+2"}`))
+		handler := handlerCalculate(&StubCalculator{}, &StubFailingStorage{})
+		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"add": "2+2"}`))
 		req.Header.Set("Content-Type", "application/json")
 		rec := httptest.NewRecorder()
 

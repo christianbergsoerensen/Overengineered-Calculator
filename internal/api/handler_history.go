@@ -13,7 +13,7 @@ func handlerHistory(store storage.StorageInterface) http.HandlerFunc {
 	}
 }
 
-func handlerHistoryHelper(w http.ResponseWriter, r *http.Request, store storage.StorageInterface) {
+func handlerHistoryHelper(w http.ResponseWriter, _ *http.Request, store storage.StorageInterface) {
 	calcs, err := store.GetHistory()
 	if err != nil {
 		http.Error(w, "could not fetch history", 500)

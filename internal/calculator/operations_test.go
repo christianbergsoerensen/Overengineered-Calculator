@@ -17,6 +17,7 @@ func TestOperations(t *testing.T) {
 	tests = append(tests, testInfo{"Addition", AddOperation{}, 8, 5, 13, false})
 	tests = append(tests, testInfo{"Subtraction", SubtractOperation{}, 34, 11, 23, false})
 	tests = append(tests, testInfo{"Multiplication", MultiplyOperation{}, 4, 11, 44, false})
+	tests = append(tests, testInfo{"Overflow Calculation", MultiplyOperation{}, 1e155, 1e154, 0, true})
 	tests = append(tests, testInfo{"Division", DivideOperation{}, 10, 2, 5, false})
 	tests = append(tests, testInfo{"Division by zero", DivideOperation{}, 10, 0, 0, true})
 
