@@ -2,7 +2,6 @@ package api
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -16,7 +15,6 @@ import (
 type StubCalculator struct{}
 
 func (s *StubCalculator) Calculate(expression string, a, b float64) (float64, error) {
-	fmt.Println("fuckimgoose")
 	return 4.0, nil
 }
 
@@ -44,7 +42,7 @@ func TestCalculateHandler(t *testing.T) {
 	handler := handlerCalculate(&StubCalculator{}, &StubStorage{})
 
 	t.Run("Valid input returns correct result", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"add": "2+2"}`))
+		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"operation": "add", "a" : 2, "b" : 2}`))
 		req.Header.Set("Content-Type", "application/json")
 		rec := httptest.NewRecorder()
 
@@ -66,7 +64,7 @@ func TestCalculateHandler(t *testing.T) {
 
 	t.Run("Server error returns 500 error", func(t *testing.T) {
 		handler := handlerCalculate(&StubCalculator{}, &StubFailingStorage{})
-		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"add": "2+2"}`))
+		req := httptest.NewRequest(http.MethodPost, "/calculate", strings.NewReader(`{"operation": "add", "a" : 2, "b" : 2}`))
 		req.Header.Set("Content-Type", "application/json")
 		rec := httptest.NewRecorder()
 

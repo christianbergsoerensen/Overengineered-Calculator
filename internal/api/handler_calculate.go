@@ -26,13 +26,13 @@ func handlerCalculate(calc calculator.CalculatorInterface, store storage.Storage
 }
 
 func handleCalculateHelper(w http.ResponseWriter, r *http.Request, calc calculator.CalculatorInterface, store storage.StorageInterface) {
-	req := CalculateRequest{}
+	req, err := validateRequestBody(r)
 	//Expecting r.body to have keys operation , a and b, which then can be decoded into a CalculateRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, "invalid json", 400)
 		return
 	}
+
 	res, err := calc.Calculate(req.Operation, req.A, req.B)
 	//Only division by 0 error at the moment
 	if err != nil {
@@ -54,5 +54,18 @@ func handleCalculateHelper(w http.ResponseWriter, r *http.Request, calc calculat
 	}
 
 	json.NewEncoder(w).Encode(CalculateResponse{Result: res})
+}
 
+func validateRequestBody(r *http.Request) (*CalculateRequest, error) {
+	req := CalculateRequest{}
+
+	//decode normally
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+
+	if err := decoder.Decode(&req); err != nil {
+		return nil, err
+	}
+
+	return &req, nil
 }
