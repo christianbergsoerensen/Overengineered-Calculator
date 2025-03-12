@@ -7,19 +7,21 @@ import (
 	"os"
 
 	"github.com/christianbergsoerensen/Overengineered-Calculator/internal/api"
+	"github.com/christianbergsoerensen/Overengineered-Calculator/internal/calculator"
+	"github.com/christianbergsoerensen/Overengineered-Calculator/internal/storage"
 
-	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
-	err := godotenv.Load()
+	calc := calculator.NewCalculator()
+	store, err := storage.NewSQLiteStorage("calculations.db")
 	if err != nil {
-		log.Fatal("Error loading .env file", err)
+		log.Fatal("Error setting up the storage ", err)
 	}
+	r := api.NewRouter(calc, store)
 
 	portString := os.Getenv("PORT")
-	r := api.NewRouter()
-
 	fmt.Println("Starting server on port " + portString)
 
 	err = http.ListenAndServe(":"+portString, r)
